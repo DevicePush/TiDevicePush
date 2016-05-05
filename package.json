@@ -1,0 +1,33 @@
+{
+  "name": "ti-devicepush",
+  "version": “1.0”,
+  "description": "DevicePush.com push notifications for both iOS and Android into Titanium apps",
+  "main": "ti-devicepush.js",
+  "titaniumManifest": {
+    "guid": "7b5037bb-24b7-4aa1-aa8b-4dbd891b7591",
+    "moduleid": "ti-devicepush"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevicePush/TiDevicePush.git"
+  },
+  "author": {
+    "name": "Device Push Notifications",
+    "email": "contact@devicepush.com",
+    "url": "http://www.devicepush.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DevicePush/TiDevicePush/issues"
+  },
+  "homepage": "https://github.com/DevicePush/TiDevicePush",
+  "keywords": [
+    "titanium",
+    "devicepush",
+    "ios",
+    "android",
+    "titaniumifier",
+    "gcm",
+    "apn"
+  ]
+}
