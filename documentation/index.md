@@ -33,14 +33,36 @@ Simply add the following lines to your `tiapp.xml` file:
 ##<a name="module_api"></a> Module API
 ```js
     var devicePush = require('ti-devicepush');
-
     devicePush.register({
-        idApplication: 'XXXXXX',    // You can get it in your DevicePush panel
-        idUser: 'XXXXX',            // You can get it in your DevicePush panel
-        token: deviceToken,         // See example.
-        platformDP: OS_IOS ? 'iOS' : 'Android'
-    },  onSuccess,                  // Optional. Success callback
-        onError);                   // Optional. Failure callback
+        idUser: 'USER_ID',    				// Your User ID in Device Push
+        idApplication: 'APPLICATION_ID',	// Aplication ID in Device Push
+        additionalData: {} 					// Currently in development
+	});
+```
+
+#### To get id or token device
+You can get the device id or token of the device.
+```js
+	Ti.App.addEventListener('deviceRegistered', function(evt){
+		Ti.API.info("[TiDeviceId] onReceive Push callback = " + evt.devicePushId);
+        var id = evt.devicePushId;
+		Ti.API.info("[TiDeviceToken] onReceive Push callback = " + evt.devicePushToken);
+        var tokenDevice = evt.devicePushToken;
+	});
+```
+With this ID you can send notification from your server.
+
+#### To manager a notification received
+You can manage notifications received with the next method
+```js
+	Ti.App.addEventListener('notificationReceived', function(evt){
+		// evt.data.message, 
+        // evt.data.title, 
+        // evt.data.count, 
+        // evt.data.sound, 
+        // evt.data.additionalData
+		Ti.API.info("[TiDeviceToken] onReceive Push callback = " + JSON.stringify(evt.data));
+	});
 ```
 
 ## Community Driven
@@ -53,7 +75,7 @@ For more detailed code examples take a look into the example app
 
 ## Changelog
 
-* v1.0  
+* v1.1  
 * init
 
 You can see more information about this at: http://www.devicepush.com/documentation-push-notification/

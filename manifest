@@ -1,8 +1,8 @@
-version: 0.1.0
+version: 0.1.1
 description: Device Push Notifications for both iOS and Android into Titanium apps
-author: Device Push Notifications <contact@devicepush.com> (http://www.devicepush.com)
+author: Device Push <contact@devicepush.com> (http://www.devicepush.com)
 license: MIT
-copyright: Copyright © 2016 Device Push Notifications
+copyright: Copyright © 2017 Device Push Notifications
 name: ti-devicepush
 moduleid: ti-devicepush
 guid: 7b5037bb-24b7-4aa1-aa8b-4dbd891b7591
