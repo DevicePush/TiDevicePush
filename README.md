@@ -91,8 +91,8 @@ The notification system consists of several interdependent components.
 
 	The MIT License
 
-	Copyright (c) 2015 Device Push.
-	portions Copyright (c) 2015 Device Push
+	Copyright (c) 2017 Device Push.
+	portions Copyright (c) 2017 Device Push
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
