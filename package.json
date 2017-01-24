@@ -1,6 +1,6 @@
 {
   "name": "ti-devicepush",
-  "version": "1.1",
+  "version": "1.2",
   "description": "DevicePush.com push notifications for both iOS and Android into Titanium apps",
   "main": "ti-devicepush.js",
   "titaniumManifest": {

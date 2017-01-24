@@ -55,6 +55,7 @@ function _DP_init (obj){
               },
               error: function(){
                 Ti.API.info("Push registration");
+                Ti.App.fireEvent('errorRegister');
               },
               callback: function(event){
                 Ti.UI.iOS.setAppBadge(0);
@@ -99,6 +100,7 @@ function _DP_init (obj){
         },
         error: function(){
           Ti.API.info("Push registration");
+          Ti.App.fireEvent('errorRegister');
         },
         callback: function(event){
           Ti.UI.iOS.setAppBadge(0);
@@ -147,6 +149,7 @@ function _DP_init (obj){
       },
       error: function (event) {
         Ti.API.info("Push registration error: " + JSON.stringify(event));
+        Ti.App.fireEvent('errorRegister');
       },
       callback: function (event) // Reveive a push on Android.
       {
@@ -177,6 +180,7 @@ function _DP_reg (obj){
     },
     onerror: function() {
       Ti.API.info("[TiDeviceToken] Can't send token to our backend");
+      Ti.App.fireEvent('errorRegister');
     }
   });
   xhr.open("POST", _DP_urlApi + obj.idApplication + '/');
@@ -204,6 +208,7 @@ module.exports = {
         },
         onerror: function() {
           Ti.API.info("[TiDeviceToken] Can´t read Sender id Backend");
+          Ti.App.fireEvent('errorRegister');
         }
       });
       xmlhttpSinc.open("GET", _DP_urlApi + obj.idApplication + '/senderid/');

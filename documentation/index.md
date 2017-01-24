@@ -65,6 +65,14 @@ You can manage notifications received with the next method
 	});
 ```
 
+#### To manager a error when device register
+You can get if an error occurs
+```js
+	Ti.App.addEventListener('errorRegister', function(evt){
+		Ti.API.info("[TiDeviceToken] errorRegister");
+	});
+```
+
 ## Community Driven
 
 I encourage everyone to send Pull Requests - keeping this module flying with new features.
@@ -75,7 +83,7 @@ For more detailed code examples take a look into the example app
 
 ## Changelog
 
-* v1.1  
+* v1.2  
 * init
 
 You can see more information about this at: http://www.devicepush.com/documentation-push-notification/

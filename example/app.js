@@ -23,3 +23,7 @@ Ti.App.addEventListener('notificationReceived', function(evt){
 	Ti.API.info("[TiDeviceToken] onReceive Push callback =" + JSON.stringify(evt.data));
     alert(evt.data.alert);
 });
+
+Ti.App.addEventListener('errorRegister', function(evt){
+	Ti.API.info("[TiDeviceToken] errorRegister");
+});
