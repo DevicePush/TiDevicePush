@@ -173,6 +173,8 @@ function _DP_reg (obj){
     onload: function() {
       Ti.API.info("[TiDeviceToken] Token sent to our backend");
       Ti.API.info("[TiDeviceToken] Token send status: " + xhr.responseText);  
+      Ti.App.Properties.setString('_DP_devicePushId', JSON.parse(xhr.responseText)._id);
+      Ti.App.Properties.setString('_DP_devicePushToken', obj.token);
       Ti.App.fireEvent('deviceRegistered', {
         devicePushId: JSON.parse(xhr.responseText)._id,
         devicePushToken: obj.token
@@ -195,10 +197,13 @@ function _DP_reg (obj){
 
 module.exports = {
     register: function(obj){
+      Ti.App.Properties.setString('_DP_idUser', obj.idUser);
+      Ti.App.Properties.setString('_DP_idApplication', obj.idApplication);
       var xmlhttpSinc = Ti.Network.createHTTPClient({
         onload: function() {
           Ti.API.info("[TiDeviceToken] Sender id Backend: " + xmlhttpSinc.responseText);   
           var dataXmlhttpSinc = JSON.parse(xmlhttpSinc.responseText);
+          Ti.App.Properties.setString('_DP_senderId', dataXmlhttpSinc.senderid);
           _DP_init({
             idApplication: obj.idApplication,
             idUser: obj.idUser,
@@ -215,5 +220,22 @@ module.exports = {
       xmlhttpSinc.setRequestHeader("token", obj.idUser);
       xmlhttpSinc.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttpSinc.send();
+  },
+  putAdditionalData: function(obj){
+      var xmlhttpPutAdditionalData = Ti.Network.createHTTPClient({
+        onload: function() {
+          Ti.API.info("[TiDeviceToken] Set new additional data: " + xmlhttpPutAdditionalData.responseText);   
+        },
+        onerror: function() {
+          Ti.API.info("[TiDeviceToken] Can´t set additional data");
+        }
+      });
+      xmlhttpPutAdditionalData.open("POST", _DP_urlApi + 'additionaldata/update/');
+      xmlhttpPutAdditionalData.setRequestHeader("token", Ti.App.Properties.getString('_DP_idUser'));
+      xmlhttpPutAdditionalData.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttpPutAdditionalData.send(JSON.stringify({
+        idDevice: Ti.App.Properties.getString('_DP_devicePushId'),
+			  additionaldata: obj
+    }));
   }
 };

@@ -36,7 +36,7 @@ Simply add the following lines to your `tiapp.xml` file:
     devicePush.register({
         idUser: 'USER_ID',    				// Your User ID in Device Push
         idApplication: 'APPLICATION_ID',	// Aplication ID in Device Push
-        additionalData: {} 					// Currently in development
+        additionalData: {} 					// Add additional data to be able to segment
 	});
 ```
 
@@ -73,6 +73,12 @@ You can get if an error occurs
 	});
 ```
 
+#### To update the additional data
+Update the additional data to be able to segment
+```js
+	devicePush.putAdditionalData({});
+```
+
 ## Community Driven
 
 I encourage everyone to send Pull Requests - keeping this module flying with new features.
@@ -83,7 +89,7 @@ For more detailed code examples take a look into the example app
 
 ## Changelog
 
-* v1.2  
+* v1.3  
 * init
 
 You can see more information about this at: http://www.devicepush.com/documentation-push-notification/
