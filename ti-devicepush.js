@@ -1,4 +1,5 @@
 var _DP_urlApi = "http://api.devicepush.com/mobile/";
+var gcm;
 function _DP_init (obj){
 
   //if (OS_IOS) 
@@ -112,11 +113,14 @@ function _DP_init (obj){
   }
   else // Android init
   {
-    var gcm = require("nl.vanvianen.android.gcm");
+    gcm = require("nl.vanvianen.android.gcm");
 
     var lastData = gcm.getLastData();
     if (lastData) {
-      Ti.API.info("Last notification received " + JSON.stringify(lastData));
+      Ti.API.info("Last notification received = " + JSON.stringify(lastData));
+      var evt = {}
+      evt.data = lastData;
+      Ti.App.fireEvent('notificationReceived', evt);
       gcm.clearLastData();
     }
     
@@ -162,37 +166,43 @@ function _DP_init (obj){
 }
 
 function _DP_reg (obj){
-  Ti.API.info("[TiDeviceToken] _DP_reg" + obj);
-  var device = '';
-  if(Ti.Platform.name != 'android'){
-    device = 'iOS';
-  }else{
-    device = 'Android';
-  }
-  var xhr = Ti.Network.createHTTPClient({
-    onload: function() {
-      Ti.API.info("[TiDeviceToken] Token sent to our backend");
-      Ti.API.info("[TiDeviceToken] Token send status: " + xhr.responseText);  
-      Ti.App.Properties.setString('_DP_devicePushId', JSON.parse(xhr.responseText)._id);
-      Ti.App.Properties.setString('_DP_devicePushToken', obj.token);
-      Ti.App.fireEvent('deviceRegistered', {
-        devicePushId: JSON.parse(xhr.responseText)._id,
-        devicePushToken: obj.token
-      });      
-    },
-    onerror: function() {
-      Ti.API.info("[TiDeviceToken] Can't send token to our backend");
-      Ti.App.fireEvent('errorRegister');
+  if (
+      Ti.App.Properties.getString('_DP_devicePushToken') == undefined || 
+      Ti.App.Properties.getString('_DP_devicePushToken') == "" || 
+      !Ti.App.Properties.getString('_DP_devicePushToken') 
+  ){
+    Ti.API.info("[TiDeviceToken] _DP_reg" + obj);
+    var device = '';
+    if(Ti.Platform.name != 'android'){
+      device = 'iOS';
+    }else{
+      device = 'Android';
     }
-  });
-  xhr.open("POST", _DP_urlApi + obj.idApplication + '/');
-  xhr.setRequestHeader("token", obj.idUser);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(JSON.stringify({
-      token: obj.token,
-      device: device,
-      additionaldata: obj.additionaldata
-  }));
+    var xhr = Ti.Network.createHTTPClient({
+      onload: function() {
+        Ti.API.info("[TiDeviceToken] Token sent to our backend");
+        Ti.API.info("[TiDeviceToken] Token send status: " + xhr.responseText);  
+        Ti.App.Properties.setString('_DP_devicePushId', JSON.parse(xhr.responseText)._id);
+        Ti.App.Properties.setString('_DP_devicePushToken', obj.token);
+        Ti.App.fireEvent('deviceRegistered', {
+          devicePushId: JSON.parse(xhr.responseText)._id,
+          devicePushToken: obj.token
+        });      
+      },
+      onerror: function() {
+        Ti.API.info("[TiDeviceToken] Can't send token to our backend");
+        Ti.App.fireEvent('errorRegister');
+      }
+    });
+    xhr.open("POST", _DP_urlApi + obj.idApplication + '/');
+    xhr.setRequestHeader("token", obj.idUser);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify({
+        token: obj.token,
+        device: device,
+        additionaldata: obj.additionaldata
+    }));
+  }
 }
 
 module.exports = {
