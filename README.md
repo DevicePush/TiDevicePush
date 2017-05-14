@@ -1,34 +1,38 @@
 # Ti Device Push Module 
 
-## DESCRIPTION
+## Description
 
 Titanium Appcelerator integration with Device Push Notifications
 Ti-Device Push module allows register and receive Push Notifications from Device Push Notifications APIs
 
-### Contents
+* The Android implementation uses [FCM Firebase Cloud Messaging](http://firebase.google.com/).
+* The iOS version is based on [APNS Notifications](https://developer.apple.com/notifications/).
 
-- [Automatic Installation](#automatic_installation)
+## Contents
+
+- [How to install the Plugin](#install_plugin)
 - [Module API](#module_api)
-- [Testing](#testing)
-- [LICENSE](#license)
+- [License](#license)
 
 ### Supported Platforms
 
 - Android
 - iOS
 
-### Get the module
+## <a name="install_plugin"></a>How to install the Plugin
 
-**Find the newest version in the dist folder**
+### Manual Installation
 
-##<a name="automatic_installation"></a> Referencing the module in your Ti mobile application 
-
-Simply add the following lines to your `tiapp.xml` file:
+Download the latest distribution ZIP-file with latest [Android GCM module](https://github.com/morinel/gcmpush) and add the following lines to your `tiapp.xml` file:
 ```xml
 <modules>
     <module platform="commonjs">ti-devicepush</module>
 </modules>
 ```
+
+### GitTio CLI Installation:
+
+$ gittio install ti-devicepush
 
 ##<a name="module_api"></a> Module API
 ```js
@@ -40,7 +44,13 @@ Simply add the following lines to your `tiapp.xml` file:
 	});
 ```
 
-#### To get id or token device
+### To unregister a device
+You must call the unregister function.
+```js
+    devicePush.unregister();
+```
+
+### To get id or token device
 You can get the device id or token of the device.
 ```js
 	Ti.App.addEventListener('deviceRegistered', function(evt){
@@ -52,7 +62,7 @@ You can get the device id or token of the device.
 ```
 With this ID you can send notification from your server.
 
-#### To manager a notification received
+### To manager a notification received
 You can manage notifications received with the next method
 ```js
 	Ti.App.addEventListener('notificationReceived', function(evt){
@@ -65,7 +75,16 @@ You can manage notifications received with the next method
 	});
 ```
 
-#### To manager a error when device register
+### When you unregister device
+You can unregister device.
+```js
+    document.addEventListener("deviceUnregistered", successDeviceUnregistered, false);
+    function successDeviceUnregistered(){
+        //TODO
+    }
+```
+
+### To manager a error when device register
 You can get if an error occurs
 ```js
 	Ti.App.addEventListener('errorRegister', function(evt){
@@ -73,33 +92,25 @@ You can get if an error occurs
 	});
 ```
 
-#### To update the additional data
+### To update the additional data
 Update the additional data to be able to segment
 ```js
 	devicePush.putAdditionalData({});
 ```
 
-## Community Driven
+### When the additional data is updated
+```js
+    document.addEventListener("additionalDataUpdated", successAdditionalDataUpdated, false);
+    function successAdditionalDataUpdated(){
+        //TODO
+    }
+```
 
-I encourage everyone to send Pull Requests - keeping this module flying with new features.
-
-## Reference
-
-For more detailed code examples take a look into the example app
-
-## Changelog
-
-* v1.3  
-* init
-
-You can see more information about this at: http://www.devicepush.com/documentation-push-notification/
+You can see more information about this at: https://www.devicepush.com/documentation-push-notification/
 
 Looking at the above message handling code for Android, a few things bear explanation. Your app may receive a notification while it is active (INLINE). If you background the app by hitting the Home button on your device, you may later receive a status bar notification. Selecting that notification from the status will bring your app to the front and allow you to process the notification (BACKGROUND). Finally, should you completely exit the app by hitting the back button from the home page, you may still receive a notification. Touching that notification in the notification tray will relaunch your app and allow you to process the notification (COLDSTART). In this case the **coldstart** flag will be set on the incoming event. You can look at the **foreground** flag on the event to determine whether you are processing a background or an in-line notification. You may choose, for example to play a sound or show a dialog only for inline or coldstart notifications since the user has already been alerted via the status bar.
 
 Since the Android notification data models are much more flexible than that of iOS, there may be additional elements beyond **message**. You can access those elements and any additional ones via the **payload** element. This means that if your data model should change in the future, there will be no need to change and recompile the plugin.
-
-##<a name="testing"></a> Testing
-The notification system consists of several interdependent components.
 
 ##<a name="license"></a> LICENSE
 

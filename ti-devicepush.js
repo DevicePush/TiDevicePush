@@ -206,7 +206,7 @@ function _DP_reg (obj){
 }
 
 module.exports = {
-    register: function(obj){
+  register: function(obj){
       Ti.App.Properties.setString('_DP_idUser', obj.idUser);
       Ti.App.Properties.setString('_DP_idApplication', obj.idApplication);
       var xmlhttpSinc = Ti.Network.createHTTPClient({
@@ -231,10 +231,39 @@ module.exports = {
       xmlhttpSinc.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttpSinc.send();
   },
+  unregister: function(){
+      if(typeof Ti.App.Properties.getString("_DP_devicePushId") != 'undefined' && Ti.App.Properties.getString("_DP_devicePushId") != null && Ti.App.Properties.getString("_DP_devicePushId") != ''){
+          var xmlhttpUnReg = Ti.Network.createHTTPClient({
+            onload: function() {
+              Ti.API.info("[TiDeviceToken] Device Unregistered");  
+              Ti.App.removeProperty('_DP_idUser');
+              Ti.App.removeProperty('_DP_idApplication');
+              Ti.App.removeProperty('_DP_senderId');
+              Ti.App.removeProperty('_DP_devicePushId');
+              Ti.App.removeProperty('_DP_devicePushToken');
+              Ti.App.fireEvent('deviceUnregistered');
+              //Function unregister
+            },
+            onerror: function() {
+              Ti.API.info("[TiDeviceToken] Can´t remove device");
+            }
+          });
+          xmlhttpUnReg.open("DELETE", _DP_urlApi + 'remove/device/');
+          xmlhttpUnReg.setRequestHeader("token", Ti.App.Properties.getString('_DP_idUser'));
+          xmlhttpUnReg.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xmlhttpUnReg.send(JSON.stringify({
+            idApplication: Ti.App.Properties.getString('_DP_idApplication'),
+            idDevice: Ti.App.Properties.getString('_DP_devicePushId')
+          }));
+      }
+  },
+  getDeviceId: function(){ return Ti.App.Properties.getString('_DP_devicePushId'); },
+  getDeviceToken: function(){ return Ti.App.Properties.getString('_DP_devicePushToken'); },
   putAdditionalData: function(obj){
       var xmlhttpPutAdditionalData = Ti.Network.createHTTPClient({
         onload: function() {
-          Ti.API.info("[TiDeviceToken] Set new additional data: " + xmlhttpPutAdditionalData.responseText);   
+          Ti.API.info("[TiDeviceToken] Set new additional data");
+          Ti.App.fireEvent('additionalDataUpdated');   
         },
         onerror: function() {
           Ti.API.info("[TiDeviceToken] Can´t set additional data");
@@ -246,6 +275,6 @@ module.exports = {
       xmlhttpPutAdditionalData.send(JSON.stringify({
         idDevice: Ti.App.Properties.getString('_DP_devicePushId'),
 			  additionaldata: obj
-    }));
+      }));
   }
 };

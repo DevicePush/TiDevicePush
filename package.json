@@ -1,11 +1,14 @@
 {
   "name": "ti-devicepush",
-  "version": "1.3",
+  "version": "1.4",
   "description": "DevicePush.com push notifications for both iOS and Android into Titanium apps",
   "main": "ti-devicepush.js",
   "titaniumManifest": {
     "guid": "7b5037bb-24b7-4aa1-aa8b-4dbd891b7591",
     "moduleid": "ti-devicepush"
+  },
+  "nativeDependencies": {
+    "nl.vanvianen.android.gcm": "^1.7"
   },
   "repository": {
     "type": "git",
