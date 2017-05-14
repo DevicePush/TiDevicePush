@@ -78,10 +78,9 @@ You can manage notifications received with the next method
 ### When you unregister device
 You can unregister device.
 ```js
-    document.addEventListener("deviceUnregistered", successDeviceUnregistered, false);
-    function successDeviceUnregistered(){
-        //TODO
-    }
+	Ti.App.addEventListener('deviceUnregistered', function(){
+		Ti.API.info("[TiDevice] deviceUnregistered");
+	});
 ```
 
 ### To manager a error when device register
@@ -100,10 +99,9 @@ Update the additional data to be able to segment
 
 ### When the additional data is updated
 ```js
-    document.addEventListener("additionalDataUpdated", successAdditionalDataUpdated, false);
-    function successAdditionalDataUpdated(){
-        //TODO
-    }
+	Ti.App.addEventListener('additionalDataUpdated', function(){
+		Ti.API.info("[TiDevice] additionalDataUpdated");
+	});
 ```
 
 You can see more information about this at: https://www.devicepush.com/en/titanium-appcelerator/
