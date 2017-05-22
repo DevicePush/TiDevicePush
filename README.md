@@ -64,7 +64,7 @@ Ti.App.addEventListener('deviceRegistered', function(evt){
 With this ID you can send notification from your server.
 
 ### To manager a notification received
-You can manage notifications received with the next method
+You can manage notifications received with the next method.
 ```js
 Ti.App.addEventListener('notificationReceived', function(evt){
 	// evt.data.message, 
