@@ -27,6 +27,7 @@ Download the latest distribution ZIP-file with latest [Android GCM module](https
 ```xml
 <modules>
     <module platform="commonjs">ti-devicepush</module>
+	<module platform="android">nl.vanvianen.android.gcm-android</module>
 </modules>
 ```
 
@@ -36,72 +37,72 @@ $ gittio install ti-devicepush
 
 ##<a name="module_api"></a> Module API
 ```js
-    var devicePush = require('ti-devicepush');
-    devicePush.register({
-        idUser: 'USER_ID',    				// Your User ID in Device Push
-        idApplication: 'APPLICATION_ID',	// Aplication ID in Device Push
-        additionalData: {} 					// Add additional data to be able to segment
-	});
+var devicePush = require('ti-devicepush');
+devicePush.register({
+	idUser: 'USER_ID',    				// Your User ID in Device Push
+	idApplication: 'APPLICATION_ID',	// Aplication ID in Device Push
+	additionalData: {} 					// Add additional data to be able to segment
+});
 ```
 
 ### To unregister a device
 You must call the unregister function.
 ```js
-    devicePush.unregister();
+devicePush.unregister();
 ```
 
 ### To get id or token device
 You can get the device id or token of the device.
 ```js
-	Ti.App.addEventListener('deviceRegistered', function(evt){
-		Ti.API.info("[TiDeviceId] onReceive Push callback = " + evt.devicePushId);
-        var id = evt.devicePushId;
-		Ti.API.info("[TiDeviceToken] onReceive Push callback = " + evt.devicePushToken);
-        var tokenDevice = evt.devicePushToken;
-	});
+Ti.App.addEventListener('deviceRegistered', function(evt){
+	Ti.API.info("[TiDeviceId] onReceive Push callback = " + evt.devicePushId);
+	var id = evt.devicePushId;
+	Ti.API.info("[TiDeviceToken] onReceive Push callback = " + evt.devicePushToken);
+	var tokenDevice = evt.devicePushToken;
+});
 ```
 With this ID you can send notification from your server.
 
 ### To manager a notification received
 You can manage notifications received with the next method
 ```js
-	Ti.App.addEventListener('notificationReceived', function(evt){
-		// evt.data.message, 
-        // evt.data.title, 
-        // evt.data.count, 
-        // evt.data.sound, 
-        // evt.data.additionalData
-		Ti.API.info("[TiDeviceToken] onReceive Push callback = " + JSON.stringify(evt.data));
-	});
+Ti.App.addEventListener('notificationReceived', function(evt){
+	// evt.data.message, 
+	// evt.data.title, 
+	// evt.data.count, 
+	// evt.data.sound, 
+	// evt.data.additionalData
+	Ti.API.info("[TiDeviceToken] onReceive Push callback = " + JSON.stringify(evt.data));
+});
 ```
 
 ### When you unregister device
 You can unregister device.
 ```js
-	Ti.App.addEventListener('deviceUnregistered', function(){
-		Ti.API.info("[TiDevice] deviceUnregistered");
-	});
+Ti.App.addEventListener('deviceUnregistered', function(){
+	Ti.API.info("[TiDevice] deviceUnregistered");
+});
 ```
 
 ### To manager a error when device register
 You can get if an error occurs
 ```js
-	Ti.App.addEventListener('errorRegister', function(evt){
-		Ti.API.info("[TiDeviceToken] errorRegister");
-	});
+Ti.App.addEventListener('errorRegister', function(evt){
+	Ti.API.info("[TiDeviceToken] errorRegister");
+});
 ```
 
 ### To update the additional data
 Update the additional data to be able to segment
 ```js
-	devicePush.putAdditionalData({});
+devicePush.putAdditionalData({});
 ```
 
 ### When the additional data is updated
 ```js
-	Ti.App.addEventListener('additionalDataUpdated', function(){
-		Ti.API.info("[TiDevice] additionalDataUpdated");
-	});
+Ti.App.addEventListener('additionalDataUpdated', function(){
+	Ti.API.info("[TiDevice] additionalDataUpdated");
+});
 ```
 
 You can see more information about this at: https://www.devicepush.com/en/titanium-appcelerator/
