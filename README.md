@@ -27,7 +27,7 @@ Download the latest distribution ZIP-file with latest [Android GCM module](https
 ```xml
 <modules>
     <module platform="commonjs">ti-devicepush</module>
-	<module platform="android">nl.vanvianen.android.gcm-android</module>
+	<module platform="android">nl.vanvianen.android.gcm</module>
 </modules>
 ```
 
